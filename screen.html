@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Screen</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to top, #111, #222);
+            border: 5px solid #0af;
+            box-shadow: 0px 5px 20px rgba(0, 170, 255, 0.5);
+            font-family: monospace;
+            color: white;
+            overflow: hidden;
+        }
+        /* Floating Back Button */
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #0af;
+            color: #000;
+            font-size: 16px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px rgba(0, 170, 255, 0.5);
+            transition: transform 0.2s ease-in-out;
+        }
+        .back-button:hover {
+            transform: scale(1.1);
+        }
+        .highlight-link {
+            text-decoration: none;
+            color: inherit;
+            transition: background-color 0.3s ease;
+        }
+        .highlight-link:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .hidden-input-container {
+            display: grid;
+            grid-template-columns: repeat(4, 80px);
+            grid-gap: 15px;
+            justify-content: center;
+            margin-top: 50px;
+        }
+        .hidden-input {
+            width: 80px;
+            height: 80px;
+            background-color: #ccc;
+            border: 2px solid #999;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            cursor: default;
+        }
+        .hidden-input:focus {
+            background-color: white;
+            border-color: #007bff;
+            outline: none;
+            cursor: text;
+        }
+        .invisible-text {
+            color: transparent;
+            cursor: default;
+        }
+        .invisible-text::selection,
+        .invisible-text::-moz-selection { /* For Firefox */
+            color: black;
+            background-color: lightgray;
+        }
+    </style>
+</head>
+<body>
+    <button id="playSound" style="display:none;">Play</button>
+    <audio id="eerieAudio1" loop>
+        <source src="audio/eerie-music1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Back Button -->
+    <button class="back-button" onclick="goBack()">⬅ Back</button>
+
+    <section id="hidden-inputs" class="py-5 text-center">
+        <div class="container">
+            <h2>Hidden Input Boxes</h2>
+            <p>Click on any box to reveal that you can type in it.</p>
+            <div class="hidden-input-container">
+                <input type="text" class="hidden-input" maxlength="1">
+                <input type="text" class="hidden-input" maxlength="1">
+                <input type="text" class="hidden-input" maxlength="1">
+                <input type="text" class="hidden-input" maxlength="1">
+                <input type="text" class="hidden-input" maxlength="1">
+                <input type="text" class="hidden-input" maxlength="1">
+                <input type="text" class="hidden-input" maxlength="1">
+                <input type="text" class="hidden-input" maxlength="1">
+            </div>
+        </div>
+    </section>
+
+    <section id="invisible-text" class="py-5 text-center">
+        <div class="container">
+            <h2>Invisible Text</h2>
+            <p class="invisible-text">You can only see this text when you highlight it.</p>
+        </div>
+    </section>
+
+    <section id="highlight-text" class="py-5">
+        <div class="container">
+            <h2>Highlighted Text</h2>
+            <p>This is a sample paragraph where some <a href="#" class="highlight-link">important text</a> is subtly highlighted only when hovered over.</p>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Check if eerie music was already playing in the previous page
+        window.addEventListener("load", function () {
+            if (sessionStorage.getItem("musicPlaying")) {
+                document.getElementById("eerieAudio1").play();
+            }
+        });
+
+        // Function to go back to the previous page
+        function goBack() {
+            window.history.back();  // Navigates to the previous page
+        }
+    </script>
+</body>
+</html>

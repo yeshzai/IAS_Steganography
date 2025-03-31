@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Lab Scene</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #020202;
+            font-family: monospace;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .scene {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .background-image {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60vw; 
+            height: 100vh;
+            background: url('img/scene.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        /* Silhouette of the body */
+        .body-silhouette {
+            position: absolute;
+            bottom: 3%;
+            left: 60%; 
+            width: 350px;
+            height: auto;
+            opacity: 0.7;
+            filter: grayscale(100%) blur(3px);
+            transform: perspective(800px) rotateX(25deg) rotateY(20deg);
+        }
+
+        .blood-splatter {
+            position: absolute;
+            opacity: 0.8;
+            filter: blur(1px);
+            pointer-events: none; /* Prevents interference with clicks */
+        }        
+
+        /* Computer Screen */
+        .computer-screen {
+            position: fixed;  /* Fix it to the viewport */
+            top: 52.8vh;  /* Viewport height-based positioning */
+            right: 26.8vw;
+            width: 82px;
+            height: 34px;
+            background: linear-gradient(to top, #111, #222);
+            border: 3px solid #0af;  /* Blue border */
+            padding: 14px;
+            overflow: hidden;
+            font-size: 10px;
+            color: #0af;  /* Blue glow */
+            white-space: pre;
+            transform: translateY(-50%) rotateX(25deg) rotateY(5deg);
+            box-shadow: 0px 5px 20px rgba(0, 170, 255, 0.5);  /* Blue glow effect */
+            perspective: 800px;
+            text-align: center;
+            animation: glitch 1.5s infinite alternate;
+            cursor: default;
+        }
+
+        .computer-screen-wrapper {
+            position: absolute;
+            top: 52.7%;
+            right: 26.9%;
+            width: 75px;
+            height: 30px;
+        }
+        
+        @keyframes perspectiveZoom {
+            0% {
+                transform: scale(1) translate(0, 0);
+            }
+            100% {
+                transform: scale(3) translate(-15vw, -5vh); /* Adjust for better centering */
+            }
+        }
+        
+        .zoom-effect {
+            animation: perspectiveZoom 4s ease-in-out forwards;
+        }        
+        
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px red, -2px -2px green; }
+            50% { text-shadow: -2px -2px red, 2px 2px green; }
+            100% { text-shadow: 2px -2px red, -2px 2px green; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div class="background-image"></div>
+        <img src="img/dead-body-bgremoved.png" alt="Slumped body" class="body-silhouette">
+        <img src="img/blood-desk.png" class="blood-splatter" style="top: 55.5%; left: 65%; width: 85px; transform: rotate(5deg); z-index: 1;">
+        <img src="img/blood-floor.png" class="blood-splatter" style="bottom: 2%; right: 29%; width: 120px; transform: rotate(25deg);">
+        <div class="computer-screen-wrapper" onclick="zoomIntoScreen()">
+            <div class="computer-screen" id="glitchText"></div>
+        </div>        
+    </div>
+
+    <button id="playSound" style="display:none;">Play</button>
+    <audio id="eerieAudio" loop>
+        <source src="audio/eerie-music.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="newTrack">
+        <source src="audio/glitch-sound.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const glitchText = document.getElementById('glitchText');
+        const codeSnippets = [
+            "ERROR: Memory corruption detected...",
+            "FATAL SYSTEM FAILURE at 0x00000FFF",
+            "UNKNOWN ENTITY DETECTED... TRACE LOST",
+            "CRITICAL MALFUNCTION: Disconnect Immediately!"
+        ];
+        
+        function glitchEffect() {
+            glitchText.innerText = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        }
+        setInterval(glitchEffect, 1500);
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Try to play the eerie music immediately
+            let eerieAudio = document.getElementById("eerieAudio");
+            eerieAudio.play().catch(() => {
+                // If blocked, wait for user interaction to start it
+                document.addEventListener("click", function () {
+                    eerieAudio.play();
+                    sessionStorage.setItem("musicPlaying", "true"); // Save state
+                }, { once: true }); // Ensures this event runs only once
+            });
+        });
+
+        function zoomIntoScreen() {
+            const scene = document.querySelector('.scene'); // Target the whole scene
+            scene.classList.add('zoom-effect');
+
+            // Play glitch sound just before switching pages (with lower volume)
+            let glitchAudio = document.getElementById("newTrack");
+            glitchAudio.volume = 0.1;  // Set volume (0.0 = mute, 1.0 = full volume)
+            glitchAudio.play();
+        
+            // Wait for the zoom animation to complete before redirecting
+            setTimeout(() => {
+                window.location.href = "screen.html"; // Destination page
+            }, 4000); // Matches animation duration
+        }
+    </script>    
+    
+</body>
+</html>
