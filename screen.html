@@ -9,13 +9,22 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: monospace;
+            color: white;
+            overflow: hidden;
+        }
+        .screen-wrapper {
+            margin: 0;
+            padding: 0;
             background: linear-gradient(to top, #111, #222);
             border: 5px solid #0af;
             box-shadow: 0px 5px 20px rgba(0, 170, 255, 0.5);
             font-family: monospace;
             color: white;
             overflow: hidden;
-        }
+            height: 100vh; /* Make it full screen */
+            width: 100%;
+        }   
         /* Floating Back Button */
         .back-button {
             position: fixed;
@@ -36,73 +45,144 @@
         }
         .folder-container {
             position: fixed !important;
-            left: 20%;
-            top: 50% !important;
+            left: 12%;
+            top: 50%;
             transform: translateY(-50%);
             display: flex;
-            gap: 50px;
+            justify-content: center; /* Center the folders horizontally */
+            align-items: center; /* Center the folders vertically */
+            gap: 85px;
+        }
+        .folder-container div {
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally within each folder */
+        }
+        .folder-container h6 {
+            text-align: center; 
+            margin-bottom: 0; 
         }
         .folder {
             width: 100px;
             cursor: pointer;
             transition: transform 0.2s;
         }
+        /* Disable clicking for empty folder */
+        .disabled-folder {
+            cursor: not-allowed;
+        }
+        /* Hidden log content */
+        .hidden-log {
+            display: none;
+            background: black;
+            padding: 10px;
+            color: lime;
+            font-size: 14px;
+            border-radius: 5px;
+            border: 1px solid lime;
+        }
+        #glitchText {
+            white-space: pre-wrap;
+            word-break: break-word;
+            text-align: left;
+            font-family: monospace;
+            width: 100%;
+            padding: 0;
+            margin: 0;
+            overflow-wrap: break-word;
+        }  
+        .fade-in-hint {
+            animation: fadeIn 2s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+              
     </style>
 </head>
 <body>
-    <button id="playSound" style="display:none;">Play</button>
-    <audio id="eerieAudio1" loop>
-        <source src="audio/eerie-music1.mp3" type="audio/mpeg">
-    </audio>
+    <div class="screen-wrapper">
+        
+        <button id="playSound" style="display:none;">Play</button>
+        <audio id="eerieAudio1" loop>
+            <source src="audio/eerie-music1.mp3" type="audio/mpeg">
+        </audio>
 
-    <!-- Floating Back Button -->
-    <button class="back-button" onclick="goBack()">⬅ Back</button>
+        <!-- Floating Back Button -->
+        <button class="back-button" onclick="location.href='front.html'">⬅ Back to Scene</button>
 
-    <div class="folder-container">
-        <div style="flex-direction: column;">
-            <img src="img/empty-folder-100.png" alt="Evidence Folder" class="folder mb-2" data-bs-toggle="modal" data-bs-target="#evidenceModal">
-            <h6>Evidence Folder</h6>
+        <div class="folder-container">
+            <!-- Empty Folder (Disabled) -->
+            <div>
+                <img src="img/empty-folder-100.png" alt="Empty Folder" class="folder mb-2 disabled-folder">
+                <h6>Private Backups</h6>
+            </div>
+
+            <div>
+                <img src="img/folder-100.png" alt="Folder" class="folder mb-2" data-bs-toggle="modal" data-bs-target="#logModal">
+                <h6>Untitled Folder</h6>
+            </div>
+
+            <div>
+                <img src="img/folder-100.png" alt="Folder" class="folder mb-2">
+                <h6>Documents</h6>
+            </div>
+
+            <div>
+                <img src="img/folder-100.png" alt="Folder" class="folder mb-2">
+                <h6>Downloads</h6>
+            </div>
+
+            <div>
+                <img src="img/empty-folder-100.png" alt="Empty Folder" class="folder mb-2">
+                <h6>Temporary Storage</h6>
+            </div>
+
+            <div>
+                <img src="img/folder-100.png" alt="Folder" class="folder mb-2">
+                <h6>Old Documents</h6>
+            </div>
         </div>
-        <div style="flex-direction: column;">
-            <img src="img/folder-100.png" alt="Police Reports Folder" class="folder mb-2" data-bs-toggle="modal" data-bs-target="#policeModal">
-            <h6>Police Reports Folder</h6>
-        </div>
-    </div>
 
-    <!-- Evidence Modal -->
-    <div class="modal fade" id="evidenceModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="modal-title">Evidence Files</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <ul>
-                        <li>📁 Tampered Security Footage</li>
-                        <li>📁 Missing File - [Error: Cannot Open]</li>
-                    </ul>
+        <!-- Log Modal -->
+        <div class="modal fade" id="logModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content bg-dark text-white">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Access Log File</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Password Input for Hidden Log -->
+                        <div id="passwordSection">
+                            <p>Enter the password:</p>
+                            <p class="fade-in-hint fst-italic" style="color: #aaa; font-size: 0.9rem;">
+                                "Only those who have reviewed the corrupted surveillance may glimpse the sequence."
+                            </p>                        
+                            <input type="password" id="logPassword" class="form-control mt-1 mb-2" placeholder="Enter password to unlock log">
+                            <button class="btn btn-primary" onclick="revealLog()">Unlock</button>
+                        </div>
+
+                        <!-- Glitching effect -->
+                        <div id="glitchEffect" style="display: none; font-family: monospace; white-space: pre; color: #0af; background: black;">
+                            <span id="glitchText">Decrypting Log...</span>
+                        </div>
+                        
+                        <!-- Hidden Log Content -->
+                        <div id="logContent" class="hidden-log mt-3" style="display: none;">
+                            <!--[LOG ENTRY] <br>
+                            🔍 Access attempt detected at 2:47 AM...<br>
+                            🚨 ALERT: Unauthorized access logged.-->
+                            <iframe src="log/sample_23b_dna.pdf" width="100%" height="400px" style="border: 1px solid #0af;"></iframe>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+    
     </div>
-
-    <!-- Police Reports Modal -->
-    <div class="modal fade" id="policeModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content bg-dark text-white">
-                <div class="modal-header">
-                    <h5 class="modal-title">Police Reports</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Incident Report:</strong></p>
-                    <p>📝 <span style="background: black; color: black; transition: color 0.5s;" onmouseover="this.style.color='white'">[REDACTED TEXT]</span></p>
-                    <p>🕒 Last seen at 2:47 AM</p>
-                </div>
-            </div>
-        </div>
-    </div>    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -114,10 +194,43 @@
             }
         });
 
-        // Function to go back to the previous page
-        function goBack() {
-            window.history.back();  // Navigates to the previous page
+        // Reveal Log
+        function revealLog() {
+            const password = document.getElementById("logPassword").value;
+            const correctPassword = "876736291"; 
+            const glitch = document.getElementById("glitchEffect");
+            const logContent = document.getElementById("logContent");
+            const passwordSection = document.getElementById("passwordSection");
+        
+            if (password === correctPassword) {
+                passwordSection.style.display = "none";
+                glitch.style.display = "block";
+                
+                // Optional glitchy text animation
+                let count = 0;
+                const glitchText = document.getElementById("glitchText");
+                const interval = setInterval(() => {
+                    glitchText.innerText = generateGlitchText();
+                    count++;
+                    if (count > 20) {
+                        clearInterval(interval);
+                        glitchText.innerText = "ACCESS GRANTED.";
+                        setTimeout(() => {
+                            glitch.style.display = "none";
+                            logContent.style.display = "block";
+                        }, 800);
+                    }
+                }, 100);
+            } else {
+                alert("Access Denied. Incorrect Password.");
+            }
         }
+        
+        function generateGlitchText() {
+            const chars = "█▓▒░<>_01";
+            return Array.from({ length: 30 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+        }
+        
     </script>
 </body>
 </html>

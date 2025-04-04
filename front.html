@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Lab Scene</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html {
             height: 100%;
@@ -21,6 +21,26 @@
             font-family: monospace;
             color: white;
             overflow: hidden;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #0af;
+            color: #000;
+            font-size: 16px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 5px 10px rgba(0, 170, 255, 0.5);
+            transition: transform 0.2s ease-in-out;
+            z-index: 9999;
+        }
+        
+        .back-button:hover {
+            transform: scale(1.1);
         }
         
         .scene {
@@ -76,7 +96,7 @@
             box-shadow: 0px 5px 20px rgba(0, 170, 255, 0.5);  /* Blue glow effect */
             perspective: 800px;
             text-align: center;
-            animation: glitch 1.5s infinite alternate;
+            animation: glitch 3.5s infinite alternate;
             cursor: default;
         }
 
@@ -107,15 +127,58 @@
             100% { text-shadow: 2px -2px red, -2px 2px green; }
         }
 
+        .laptop-corner {
+            position: fixed !important;
+            left: 5%;
+            bottom: 5% !important;
+            display: flex;
+            transform: translateY(-50%);
+        }
+
+        .laptop {
+            width: 250px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            transform: scaleX(-1);
+        }
+
+        .laptop:hover {
+            transform: scaleX(-1) scale(1.1);
+        }
+
         .folder-container {
             position: fixed !important;
-            left: 20%;
-            top: 50% !important;
+            left: 10%;
+            top: 28% !important;
             transform: translateY(-50%);
             display: flex;
-            flex-direction: column;
-            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 82px;
             z-index: 1000;
+        }
+
+        .folder-container-1 {
+            position: fixed !important;
+            left: 20%;
+            top: 51% !important;
+            transform: translateY(-50%);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .folder-container h5 {
+            text-align: center;
+            width: 100%; 
+            margin-bottom: 5px;
+        }
+
+        .folder-container .folder-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .folder {
@@ -127,6 +190,16 @@
         .folder:hover {
             transform: scale(1.1);
         }
+
+        .folder-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            font-size: 10px;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }        
 
         @keyframes moveFadeOut {
             0% {
@@ -145,26 +218,44 @@
             left: 20%; /* Keeps starting position */
             animation: moveFadeOut 2s ease-out forwards;
         }
+
+        #videoModal {
+            z-index: 1055 !important;
+        }
     </style>
 </head>
 <body>
+    <button class="back-button" onclick="location.href='premise.html'">← Back to Premise</button>
+
     <div class="scene">
         <div class="background-image"></div>
         <img src="img/dead-body-bgremoved.png" alt="Slumped body" class="body-silhouette">
         <img src="img/blood-desk.png" class="blood-splatter" style="top: 55.5%; left: 65%; width: 85px; transform: rotate(5deg); z-index: 1;">
         <img src="img/blood-floor.png" class="blood-splatter" style="bottom: 2%; right: 29%; width: 120px; transform: rotate(25deg);">
         <div class="computer-screen-wrapper" onclick="zoomIntoScreen()">
-            <div class="computer-screen" id="glitchText"></div>
+            <div class="computer-screen folder-row" id="folderRow"></div>
         </div>        
     </div>
 
+    <div class="laptop-corner">
+        <img src="img/laptop.png" alt="Laptop" class="laptop" data-bs-toggle="modal" data-bs-target="#laptopModal">
+    </div>
+
     <div class="folder-container">
-        <h5>Evidence Folder</h5>
-        <img src="img/evidence-folder.png" alt="Evidence Folder" class="folder mb-5" data-bs-toggle="modal" data-bs-target="#evidenceModal">
-        <h5>Police Reports Folder</h5>
-        <img src="img/police-reports-folder.png" alt="Police Reports Folder" class="folder mb-5" data-bs-toggle="modal" data-bs-target="#policeModal">
-        <h5>Suspect Folder</h5>
-        <img src="img/suspect-folder.png" alt="Suspect Folder" class="folder" data-bs-toggle="modal" data-bs-target="#suspectModal">
+        <div class="folder-wrapper">
+            <h5>Evidence Folder</h5>
+            <img src="img/evidence-folder.png" alt="Evidence Folder" class="folder mb-5" data-bs-toggle="modal" data-bs-target="#evidenceModal">
+        </div>
+        <div class="folder-wrapper">
+            <h5>Police Reports Folder</h5>
+            <img src="img/police-reports-folder.png" alt="Police Reports Folder" class="folder mb-5" data-bs-toggle="modal" data-bs-target="#policeModal">
+        </div>
+    </div>
+    <div class="folder-container-1">
+        <div class="folder-wrapper">
+            <h5>Suspect Folder</h5>
+            <img src="img/suspect-folder.png" alt="Suspect Folder" class="folder" data-bs-toggle="modal" data-bs-target="#suspectModal">
+        </div>
     </div>
 
     <!-- Evidence Modal -->
@@ -177,9 +268,27 @@
                 </div>
                 <div class="modal-body">
                     <ul>
-                        <li>📁 Tampered Security Footage</li>
+                        <li style="cursor: pointer;" onclick="openVideo()">📁 Tampered Security Footage</li>
                         <li>📁 Missing File - [Error: Cannot Open]</li>
                     </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal (Hidden Initially) -->
+    <div id="videoModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tampered Security Footage</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <video id="securityFootage" width="100%" controls>
+                        <source src="video/footage.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
             </div>
         </div>
@@ -203,21 +312,42 @@
     </div>    
 
     <!-- Suspect Modal -->
-    <div class="modal fade" id="policeModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="suspectModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header">
-                    <h5 class="modal-title">Suspect</h5>
+                    <h5 class="modal-title">Suspect Profile Files</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Incident Report:</strong></p>
-                    <p>📝 <span style="background: black; color: black; transition: color 0.5s;" onmouseover="this.style.color='white'">[REDACTED TEXT]</span></p>
-                    <p>🕒 Last seen at 2:47 AM</p>
+                    <ul>
+                        <li style="cursor: pointer;" onclick="openSuspectProfile('Vincent')">👤 Vincent Lim</li>
+                        <li style="cursor: pointer;" onclick="openSuspectProfile('Maria')">👤 Maria Dela Cruz</li>
+                        <li style="cursor: pointer;" onclick="openSuspectProfile('Esteban')">👤 Dr. Esteban Ramirez</li>
+                        <li style="cursor: pointer;" onclick="openSuspectProfile('Rafael')">👤 Rafael Kyle Jimenez</li>
+                        <li style="cursor: pointer;" onclick="openSuspectProfile('Angela')">👤 Angela Cortez</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>    
+
+    <!-- Suspect Profile Modal -->
+    <div id="suspectProfileModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white text-center">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="suspectName">Suspect Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body mt-4">
+                    <img id="suspectImage" src="/img/folder.png" alt="Suspect Folder" style="width: 90%; max-width: 800px;" class="mb-3">
+                    <p id="suspectDesc"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <button id="playSound" style="display:none;">Play</button>
     <audio id="eerieAudio" loop>
@@ -227,20 +357,108 @@
         <source src="audio/glitch-sound.mp3" type="audio/mpeg">
     </audio>
 
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        const glitchText = document.getElementById('glitchText');
-        const codeSnippets = [
-            "ERROR: Memory corruption detected...",
-            "FATAL SYSTEM FAILURE at 0x00000FFF",
-            "UNKNOWN ENTITY DETECTED... TRACE LOST",
-            "CRITICAL MALFUNCTION: Disconnect Immediately!"
+        const folderSnippets = [
+            "📁", "📁", "📁", "📁", "📁", "📁"
         ];
+        const folderRow = document.getElementById('folderRow');
         
-        function glitchEffect() {
-            glitchText.innerText = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        // Initially create folder icons
+        folderSnippets.forEach((folder, index) => {
+            const span = document.createElement('span');
+            span.textContent = folder;
+            folderRow.appendChild(span);
+
+            // Check if it's the first folder and fade it out
+        if (index === 0) {
+            span.style.opacity = "0.3";  // Set opacity lower for the first folder
+            span.style.transition = "opacity 1s ease-in-out";  // Smooth transition for fading effect
         }
-        setInterval(glitchEffect, 1500);
+        });
     </script>
+
+    <script>
+        // This will ensure both modals are initialized correctly
+        var evidenceModalInstance = new bootstrap.Modal(document.getElementById('evidenceModal'));
+        var videoModalInstance = new bootstrap.Modal(document.getElementById('videoModal'));
+
+        // Function to open the video modal and close the evidence modal
+        function openVideo() {
+            // Hide the evidence modal
+            evidenceModalInstance.hide();
+
+            // Show the video modal
+            videoModalInstance.show();
+        }
+
+        // When the video modal is closed, show the evidence modal again
+        document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
+            evidenceModalInstance.show();
+        });
+    </script>
+
+    <script>
+        // This will ensure both modals are initialized correctly
+        var suspectModalInstance = new bootstrap.Modal(document.getElementById('suspectModal'));
+        var suspectProfileModalInstance = new bootstrap.Modal(document.getElementById('suspectProfileModal'));
+
+        // Function to open the suspect profile modal and close the suspect modal
+        function openSuspectProfile() {
+            // Hide the suspect modal
+            suspectModalInstance.hide();
+
+            // Show the suspect profile modal
+            suspectProfileModalInstance.show();
+        }
+
+        // When the suspect profile modal is closed, show the suspect modal again
+        document.getElementById('suspectProfileModal').addEventListener('hidden.bs.modal', function () {
+            suspectModalInstance.show();
+        });
+    </script>
+
+    <script>
+        function openSuspectProfile(name) {
+            // Close the suspect list modal
+            const suspectModal = bootstrap.Modal.getInstance(document.getElementById('suspectModal'));
+            suspectModal.hide();
+    
+            // Set dynamic content
+            const profileImage = document.getElementById('suspectImage');
+            const profileTitle = document.getElementById('suspectName');
+            const profileDesc = document.getElementById('suspectDesc');
+    
+            // Customize based on name
+            if (name === "Vincent") {
+                profileImage.src = "img/vincent-profile.png";
+                profileTitle.textContent = "Vincent Lim";
+                profileDesc.textContent = "Suspect #1: Known associate of the victim. Claims alibi at the time of incident.";
+            } else if (name === "Maria") {
+                profileImage.src = "img/maria-profile.png";
+                profileTitle.textContent = "Maria Dela Cruz";
+                profileDesc.textContent = "Suspect #2: Last person seen with the victim. Inconsistent statements.";
+            } else if (name === "Esteban") {
+                profileImage.src = "img/esteban-profile.png";
+                profileTitle.textContent = "Dr. Esteban Ramirez";
+                profileDesc.textContent = "Suspect #3: Last person seen with the victim. Inconsistent statements.";
+            } else if (name === "Rafael") {
+                profileImage.src = "img/rafael-profile.png";
+                profileTitle.textContent = "Rafael Kyle Jimenez";
+                profileDesc.textContent = "Suspect #4: Last person seen with the victim. Inconsistent statements.";
+            } else if (name === "Angela") {
+                profileImage.src = "img/angela-profile.png";
+                profileTitle.textContent = "Angela Cortez";
+                profileDesc.textContent = "Suspect #5: Last person seen with the victim. Inconsistent statements.";
+            }
+    
+            // Show the suspect profile modal
+            const profileModal = new bootstrap.Modal(document.getElementById('suspectProfileModal'));
+            profileModal.show();
+        }
+    </script>    
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -258,6 +476,8 @@
         function zoomIntoScreen() {
             const scene = document.querySelector('.scene'); // Target the whole scene
             const folderContainer = document.querySelector('.folder-container');
+            const folderContainer1 = document.querySelector('.folder-container-1');
+            const laptopCorner = document.querySelector('.laptop-corner');
 
             // Lock the folder-container in place before moving it
             //folderContainer.style.position = "fixed";
@@ -265,12 +485,16 @@
 
             // REMOVE folder-container from the scene before scaling starts
             document.body.appendChild(folderContainer);  
-            folderContainer.style.position = "fixed";  // Keeps it in place
+            document.body.appendChild(folderContainer1);  
+            document.body.appendChild(laptopCorner);   
+            /*folderContainer.style.position = "fixed";  // Keeps it in place
             folderContainer.style.top = "50%";  
-            folderContainer.style.left = "20%";  
+            folderContainer.style.left = "20%";  */
 
             // Apply animations
             folderContainer.classList.add('move-fade-out');
+            folderContainer1.classList.add('move-fade-out');
+            laptopCorner.classList.add('move-fade-out');
             scene.classList.add('zoom-effect');
 
             // Play glitch sound just before switching pages (with lower volume)
@@ -285,6 +509,5 @@
         }
     </script>    
     
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
