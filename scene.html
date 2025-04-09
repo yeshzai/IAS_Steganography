@@ -27,7 +27,7 @@
         .back-button {
             position: fixed;
             top: 20px;
-            left: 20px;
+            left: 30px;
             background: #0af;
             color: #000;
             font-size: 16px;
@@ -54,7 +54,7 @@
             right: 0;
             width: 60vw; 
             height: 100vh;
-            background: url('img/scene.jpg') no-repeat center center;
+            background: url('assets/img/scene.jpg') no-repeat center center;
             background-size: cover;
         }
 
@@ -325,6 +325,23 @@
             transform: scale(1.05);
         }
 
+        #FinalReport {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: transform 0.2s;
+            z-index: 1000;
+        }
+        #FinalReport:hover {
+            transform: scale(1.05);
+        }
+
         .fingerprint {
             position: absolute;
             top: 10%;  
@@ -345,22 +362,70 @@
 <body>
     <button class="back-button" onclick="location.href='index.html'">← Back to Premise</button>
     <a id="ExternalLink" href="https://seanmaravillo.github.io/image-video-steganography/" target="_blank">Tools</a>
+    <!-- Final Report Button -->
+    <div class="text-center mb-3">
+        <button id="FinalReport" class="btn btn-danger" onclick="openFinalReportModal()">
+            📄 Submit Final Report
+        </button>
+    </div>
 
-    <audio id="sound-paper" src="audio/paper-uncrumple.mp3" preload="auto"></audio>
-    <audio id="sound-idcard" src="audio/id-card-pickup.mp3" preload="auto"></audio>
-    <audio id="sound-folder" src="audio/folder-open.mp3" preload="auto"></audio>
-    <audio id="sound-fingerprint-scan" src="audio/fingerprint-scan.mp3" preload="auto"></audio>
-    <audio id="sound-laptop-open" src="audio/laptop-open.mp3" preload="auto"></audio>
-    <audio id="sound-laptop-close" src="audio/laptop-close.mp3" preload="auto"></audio>
+    <!-- Final Report Modal -->
+    <div class="modal fade" id="finalReportModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Submit Final Report</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="finalReportForm">
+                        <div class="mb-3">
+                            <label for="victimName" class="form-label">Victim Name:</label>
+                            <input type="text" class="form-control" id="victimName" placeholder="Enter victim name">
+                        </div>
+                        <div class="mb-3">
+                            <label for="culpritName" class="form-label">Suspect to Apprehend:</label>
+                            <input type="text" class="form-control" id="culpritName" placeholder="Enter suspect name">
+                        </div>
+                        <button type="button" class="btn btn-primary" id="submitReportBtn" onclick="submitFinalReport()">Submit Report</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    <div class="modal fade" id="resultModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Case Submission Results</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="resultMessage" class="text-center"></div>
+                    <div class="text-center mt-2">
+                        <small>Attempts made: <span id="attemptCount">0</span></small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>      
+
+    <audio id="sound-paper" src="assets/audio/paper-uncrumple.mp3" preload="auto"></audio>
+    <audio id="sound-idcard" src="assets/audio/id-card-pickup.mp3" preload="auto"></audio>
+    <audio id="sound-folder" src="assets/audio/folder-open.mp3" preload="auto"></audio>
+    <audio id="sound-fingerprint-scan" src="assets/audio/fingerprint-scan.mp3" preload="auto"></audio>
+    <audio id="sound-laptop-open" src="assets/audio/laptop-open.mp3" preload="auto"></audio>
+    <audio id="sound-laptop-close" src="assets/audio/laptop-close.mp3" preload="auto"></audio>
 
     <div class="scene">
         <div class="background-image"></div>
-        <img src="img/dead-body-bgremoved.png" alt="Slumped body" class="body-silhouette">
-        <img src="img/blood-desk.png" class="blood-splatter" style="top: 55.5%; left: 65%; width: 85px; transform: rotate(5deg); z-index: 1;">
-        <img src="img/blood-floor.png" class="blood-splatter" style="bottom: 2%; right: 29%; width: 120px; transform: rotate(25deg);">
-        <img src="img/id.png" class="id-card" id="idCard" data-bs-toggle="modal" data-bs-target="#idModal" alt="ID Card">
-        <img src="img/ball-crumbled-paper.png" class="crumpled-paper" id="crumpledPaper" data-bs-toggle="modal" data-bs-target="#crumpledPaperModal" alt="Ball Crumpled Paper">
-        <img src="img/Partial_FP__Dr._Esteban.png" alt="Partial Fingerprint" id="fingerprintScan" class="partial-fingerprint" data-bs-toggle="tooltip" data-bs-placement="top" title="Partial fingerprint fragment" onclick="openFingerprintModal()"/>
+        <img src="assets/img/dead-body-bgremoved.png" alt="Slumped body" class="body-silhouette">
+        <img src="assets/img/blood-desk.png" class="blood-splatter" style="top: 55.5%; left: 65%; width: 85px; transform: rotate(5deg); z-index: 1;">
+        <img src="assets/img/blood-floor.png" class="blood-splatter" style="bottom: 2%; right: 29%; width: 120px; transform: rotate(25deg);">
+        <img src="assets/img/id.png" class="id-card" id="idCard" data-bs-toggle="modal" data-bs-target="#idModal" alt="ID Card">
+        <img src="assets/img/ball-crumbled-paper.png" class="crumpled-paper" id="crumpledPaper" data-bs-toggle="modal" data-bs-target="#crumpledPaperModal" alt="Ball Crumpled Paper">
+        <img src="assets/img/Partial_FP__Dr._Esteban.png" alt="Partial Fingerprint" id="fingerprintScan" class="partial-fingerprint" data-bs-toggle="tooltip" data-bs-placement="top" title="Partial fingerprint fragment" onclick="openFingerprintModal()"/>
         <div class="computer-screen-wrapper" onclick="zoomIntoScreen()">
             <div class="computer-screen folder-row" id="folderRow"></div>
         </div>
@@ -377,7 +442,7 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body m-0">
-                <img src="img/id.png" alt="ID Card" style="width: 50%; margin: 0; padding: 0;">
+                <img src="assets/img/id.png" alt="ID Card" style="width: 50%; margin: 0; padding: 0;">
             </div>
         </div>
         </div>
@@ -391,7 +456,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body m-0">
-                    <img src="img/crumpled-note.png" alt="Ball Crumpled Card" style="width: 50%; margin: 0; padding: 0;">
+                    <img src="assets/img/crumpled-note.png" alt="Ball Crumpled Card" style="width: 50%; margin: 0; padding: 0;">
                 </div>
             </div>
         </div>
@@ -406,7 +471,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center">
-                    <img src="img/Partial_FP__Dr._Esteban.png" class="img-fluid rounded" alt="Fingerprint Detail">
+                    <img src="assets/img/Partial_FP__Dr._Esteban.png" class="img-fluid rounded" alt="Fingerprint Detail">
                 </div>
             </div>
         </div>
@@ -414,7 +479,7 @@
   
     <div class="laptop-corner">
         <p>Vincent's Laptop</p>
-        <img src="img/laptop.png" alt="Laptop" class="laptop" id="laptop" data-bs-toggle="modal" data-bs-target="#laptopModal">
+        <img src="assets/img/laptop.png" alt="Laptop" class="laptop" id="laptop" data-bs-toggle="modal" data-bs-target="#laptopModal">
     </div>
 
     <!-- Laptop Modal with PIN Entry -->
@@ -423,7 +488,7 @@
             <div class="modal-content bg-dark text-white text-center">
                 <div class="modal-header">
                     <h5 class="modal-title">Enter PIN</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <!-- PIN Inputs -->
@@ -464,17 +529,17 @@
     <div class="folder-container">
         <div class="folder-wrapper">
             <h5>Evidence Folder</h5>
-            <img src="img/evidence-folder.png" alt="Evidence Folder" class="folder mb-5" id="evidence-folder" data-bs-toggle="modal" data-bs-target="#evidenceModal">
+            <img src="assets/img/evidence-folder.png" alt="Evidence Folder" class="folder mb-5" id="evidence-folder" data-bs-toggle="modal" data-bs-target="#evidenceModal">
         </div>
         <div class="folder-wrapper">
             <h5>Pending Analysis</h5>
-            <img src="img/police-reports-folder.png" alt="Pending Analysis Folder" class="folder mb-5" id="analysis-folder" data-bs-toggle="modal" data-bs-target="#pendingAnalysisModal">
+            <img src="assets/img/police-reports-folder.png" alt="Pending Analysis Folder" class="folder mb-5" id="analysis-folder" data-bs-toggle="modal" data-bs-target="#pendingAnalysisModal">
         </div>
     </div>
     <div class="folder-container-1">
         <div class="folder-wrapper">
             <h5>Suspect Folder</h5>
-            <img src="img/suspect-folder.png" alt="Suspect Folder" class="folder" id="suspect-folder" data-bs-toggle="modal" data-bs-target="#suspectModal">
+            <img src="assets/img/suspect-folder.png" alt="Suspect Folder" class="folder" id="suspect-folder" data-bs-toggle="modal" data-bs-target="#suspectModal">
         </div>
     </div>
 
@@ -484,12 +549,16 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header">
                     <h5 class="modal-title">Evidence Files</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <ul>
-                        <li style="cursor: pointer;" onclick="openVideo()">📁 Tampered Security Footage</li>
-                        <li>📁 Missing File - [Error: Cannot Open]</li>
+                        <li style="cursor: pointer;" onclick="openEvidence('videoModal')">📁 Tampered Security Footage</li>
+                        <li style="cursor: default;">📁 Missing File - [Error: Cannot Open]</li>
+                        <li style="cursor: pointer;" onclick="openEvidence('emailMariaModal')">📧 Deleted Email – Maria Dela Cruz</li>
+                        <li style="cursor: pointer;" onclick="openEvidence('emailAngelaModal')">📧 Corrupted Email – Angela Cortez</li>
+                        <li style="cursor: pointer;" onclick="openEvidence('emailEstebanModal')">📧 Recovered Email – Dr. Esteban Ramirez</li>
+                        <li style="cursor: pointer;" onclick="openEvidence('noteModalRafael')">📝 Note to Dr. Esteban – Rafael</li>
                     </ul>
                 </div>
             </div>
@@ -502,13 +571,87 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header">
                     <h5 class="modal-title">Tampered Security Footage</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <video id="securityFootage" width="100%" controls>
-                        <source src="video/footage.mp4" type="video/mp4">
+                        <source src="assets/video/footage.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Maria's Email Modal -->
+    <div class="modal fade" id="emailMariaModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Deleted Email - Maria Dela Cruz</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-warning py-1 px-2 small">Recovered from Trash - May be incomplete</div>
+                    <p style="opacity: 0.8; font-family: 'Courier New', monospace;">
+                        “I don’t want to be part of this. Don’t make me do it.”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Angela's Email Modal -->
+    <div class="modal fade" id="emailAngelaModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Corrupted Email - Angela Cortez</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-danger py-1 px-2 small">⚠️ Corrupted Email — File integrity compromised</div>
+                    <p style="font-family: monospace; letter-spacing: 0.5px;">
+                        “...you know who ███ █████ it.”
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Esteban's Email Modal -->
+    <div class="modal fade" id="emailEstebanModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Recovered Email - Dr. Esteban Ramirez</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="alert alert-success py-1 px-2 small">Recovered from archival logs</div>
+                    <pre style="background: #1e1e1e; padding: 10px; border-radius: 5px; font-family: monospace;">
+From: esteban.ramirez@institute.org
+To: rafael.mendoza@institute.org
+Subject: Urgent Containment
+
+    We need to contain this before it spreads further.
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rafael's Note Modal -->
+    <div class="modal fade" id="noteModalRafael" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content bg-dark text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title">Rafael’s Note to Dr. Esteban</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="assets/img/rafael-note-to-dr-esteban.png" alt="Note from Rafael to Dr. Esteban" class="img-fluid rounded shadow" style="max-height: 500px;">
+                    <p class="mt-3"><small><i>Handwritten note found among Dr. Esteban’s belongings, requesting help with a worsening situation.</i></small></p>
                 </div>
             </div>
         </div>
@@ -520,7 +663,7 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header">
                     <h5 class="modal-title">Pending Analysis</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p><strong>These files were flagged for further review but never made it to the official report.
@@ -544,7 +687,7 @@
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header">
                     <h5 class="modal-title">Suspect Profile Files</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <ul>
@@ -565,13 +708,13 @@
             <div class="modal-content bg-dark text-white text-center">
                 <div class="modal-header">
                     <h5 class="modal-title" id="suspectName">Suspect Profile</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body mt-4">
                     <!-- Container for Folder + Fingerprint -->
                     <div class="position-relative d-inline-block">
-                        <img id="suspectImage" src="/img/folder.png" alt="Suspect Folder" style="width: 90%; max-width: 800px;" class="mb-3">
-                        <img id="fingerprintImage" src="/img/fingerprint.png" alt="Fingerprint Evidence" class="fingerprint mt-2" onclick="zoomFingerprint('')">
+                        <img id="suspectImage" src="assets/img/folder.png" alt="Suspect Folder" style="width: 90%; max-width: 800px;" class="mb-3">
+                        <img id="fingerprintImage" src="assets/img/fingerprint.png" alt="Fingerprint Evidence" class="fingerprint mt-2" onclick="zoomFingerprint('')">
                     </div>
                     <p id="suspectDesc"></p>
                 </div>
@@ -587,7 +730,7 @@
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body text-center p-0">
-                    <img id="zoomedFingerprint" src="/img/fingerprint.png" alt="Fingerprint Zoomed" class="img-fluid" style="width: 40%;">
+                    <img id="zoomedFingerprint" src="assets/img/fingerprint.png" alt="Fingerprint Zoomed" class="img-fluid" style="width: 40%;">
                 </div>
             </div>
         </div>
@@ -595,10 +738,10 @@
 
     <button id="playSound" style="display:none;">Play</button>
     <audio id="eerieAudio" loop>
-        <source src="audio/eerie-music.mp3" type="audio/mpeg">
+        <source src="assets/audio/eerie-music.mp3" type="audio/mpeg">
     </audio>
     <audio id="newTrack">
-        <source src="audio/glitch-sound.mp3" type="audio/mpeg">
+        <source src="assets/audio/glitch-sound.mp3" type="audio/mpeg">
     </audio>
 
     
@@ -732,6 +875,20 @@
         document.getElementById('videoModal').addEventListener('hidden.bs.modal', function () {
             evidenceModalInstance.show();
         });
+
+        function openEvidence(targetId) {
+            // Hide the evidence modal
+            evidenceModalInstance.hide();
+    
+            // Show the target modal
+            const targetModal = new bootstrap.Modal(document.getElementById(targetId));
+            targetModal.show();
+    
+            // When closed, reopen evidence modal
+            document.getElementById(targetId).addEventListener('hidden.bs.modal', function () {
+                evidenceModalInstance.show();
+            }, { once: true });
+        }
     </script>
 
     <script>
@@ -770,8 +927,8 @@
             let fingerprintSrc = ""; // Store fingerprint image path
 
             if (name === "Vincent") {
-                profileImage.src = "img/vincent-profile.png";
-                fingerprintImage.src = "img/fingerprint-vincent.png";
+                profileImage.src = "assets/img/vincent-profile.png";
+                fingerprintImage.src = "assets/img/fingerprint-vincent.png";
                 profileTitle.textContent = "Vincent Lim";
                 profileDesc.innerHTML = `
                     <strong>Suspect #1:</strong> Known associate of the victim. Claims an alibi at the time of the incident.<br><br>
@@ -807,8 +964,8 @@
                     </ul>
                 `;
             } else if (name === "Maria") {
-                profileImage.src = "img/maria-profile.png";
-                fingerprintImage.src = "img/fingerprint-maria.png";
+                profileImage.src = "assets/img/maria-profile.png";
+                fingerprintImage.src = "assets/img/fingerprint-maria.png";
                 profileTitle.textContent = "Maria Dela Cruz";
                 profileDesc.innerHTML = `
                     <strong>Suspect #2:</strong> Longtime lab technician. Inconsistent statements.<br><br>
@@ -845,8 +1002,8 @@
                     </ul>
                 `;
             } else if (name === "Esteban") {
-                profileImage.src = "img/esteban-profile.png";
-                fingerprintImage.src = "img/fingerprint-esteban.png";
+                profileImage.src = "assets/img/esteban-profile.png";
+                fingerprintImage.src = "assets/img/fingerprint-esteban.png";
                 profileTitle.textContent = "Dr. Esteban Ramirez";
                 profileDesc.innerHTML = `
                     <strong>Suspect #3:</strong>  Senior faculty member with deep ties to the Overseer Project.<br><br>
@@ -883,8 +1040,8 @@
                     </ul>
                 `;
             } else if (name === "Rafael") {
-                profileImage.src = "img/rafael-profile.png";
-                fingerprintImage.src = "img/fingerprint-rafael.png";
+                profileImage.src = "assets/img/rafael-profile.png";
+                fingerprintImage.src = "assets/img/fingerprint-rafael.png";
                 profileTitle.textContent = "Rafael Kyle Jimenez";
                 profileDesc.innerHTML = `
                     <strong>Suspect #4:</strong> Overseer Project’s creator. Keeps everything under tight control.<br><br>
@@ -921,8 +1078,8 @@
                     </ul>
                 `;
             } else if (name === "Angela") {
-                profileImage.src = "img/angela-profile.png";
-                fingerprintImage.src = "img/fingerprint-angela.png";
+                profileImage.src = "assets/img/angela-profile.png";
+                fingerprintImage.src = "assets/img/fingerprint-angela.png";
                 profileTitle.textContent = "Angela Cortez";
                 profileDesc.innerHTML = `
                     <strong>Suspect #5:</strong> Promising researcher with connections to both the victim and sensitive data.<br><br>
@@ -983,15 +1140,15 @@
             
             // Set the fingerprint image based on the clicked suspect
             if (suspectName === "Vincent") {
-                zoomedFingerprint.src = "img/fingerprint-vincent.png";  
+                zoomedFingerprint.src = "assets/img/fingerprint-vincent.png";  
             } else if (suspectName === "Maria") {
-                zoomedFingerprint.src = "img/fingerprint-maria.png"; 
+                zoomedFingerprint.src = "assets/img/fingerprint-maria.png"; 
             } else if (suspectName === "Esteban") {
-                zoomedFingerprint.src = "img/fingerprint-esteban.png"; 
+                zoomedFingerprint.src = "assets/img/fingerprint-esteban.png"; 
             } else if (suspectName === "Rafael") {
-                zoomedFingerprint.src = "img/fingerprint-rafael.png"; 
+                zoomedFingerprint.src = "assets/img/fingerprint-rafael.png"; 
             } else if (suspectName === "Angela") {
-                zoomedFingerprint.src = "img/fingerprint-angela.png"; 
+                zoomedFingerprint.src = "assets/img/fingerprint-angela.png"; 
             } 
             
             // Open the fingerprint modal
@@ -1057,6 +1214,129 @@
             }, 4000); // Matches animation duration
         }
     </script>    
+
+    <script>
+        const finalModal = document.getElementById('finalReportModal');
+        const finalModalInstance = new bootstrap.Modal(finalModal);
+      
+        // Load input when modal opens
+        finalModal.addEventListener('show.bs.modal', () => {
+            document.getElementById('victimName').value = localStorage.getItem('draftVictim') || '';
+            document.getElementById('culpritName').value = localStorage.getItem('draftSuspect') || '';
+        });
+      
+        // Save input as they type
+        document.getElementById('victimName').addEventListener('input', e => {
+            localStorage.setItem('draftVictim', e.target.value);
+        });
+        document.getElementById('culpritName').addEventListener('input', e => {
+            localStorage.setItem('draftSuspect', e.target.value);
+        });
+
+        const CORRECT_VICTIM = "Lucas Calderon";
+        const CORRECT_SUSPECT = "Rafael Kyle Jimenez";
+
+        let attemptCounter = 0;
+        const resultModalInstance = new bootstrap.Modal(document.getElementById('resultModal'));
+      
+        function openFinalReportModal() {
+            finalModalInstance.show();
+        }
+
+        // Check if answers were previously correct
+        const isAnsweredCorrectly = localStorage.getItem('isAnsweredCorrectly') === 'true';
+      
+        function submitFinalReport() {
+            const victim = document.getElementById('victimName').value.trim();
+            const suspect = document.getElementById('culpritName').value.trim();
+      
+            if (!victim || !suspect) {
+                alert("⚠️ Please enter both names before submitting.");
+                return;
+            }
+        
+            // Compare answers
+            const victimCorrect = victim.toLowerCase() === CORRECT_VICTIM.toLowerCase();
+            const suspectCorrect = suspect.toLowerCase() === CORRECT_SUSPECT.toLowerCase();
+        
+            attemptCounter++;
+            document.getElementById('attemptCount').innerText = attemptCounter;
+
+            if (victimCorrect && suspectCorrect) {
+                showResult("✅ Correct! You identified the victim and the culprit.", true);
+
+                // Disable fields and button
+                disableForm();
+
+                // Store the correct answer state in localStorage
+                localStorage.setItem('isAnsweredCorrectly', 'true');
+                localStorage.removeItem('draftVictim');
+                localStorage.removeItem('draftSuspect');
+            } else {
+                let message = "❌ Incorrect.\n";
+                if (!victimCorrect) message += `• The victim is not "${victim}".\n`;
+                if (!suspectCorrect) message += `• The suspect is not "${suspect}".`;
+                showResult(message, false);
+            }
+
+            function showResult(message, success) {
+                const resultBox = document.getElementById('resultMessage');
+                resultBox.innerHTML = message;
+                resultBox.className = success ? "text-success" : "text-danger";
+                resultModalInstance.show();
+            }
+
+            function disableForm() {
+                // Disable input fields and submit button
+                const victimInput = document.getElementById('victimName');
+                const suspectInput = document.getElementById('culpritName');
+                const submitButton = document.getElementById('submitReportBtn');
+
+                victimInput.disabled = true;
+                suspectInput.disabled = true;
+                submitButton.disabled = true;
+
+                // Clear input values
+                victimInput.value = '';
+                suspectInput.value = '';
+
+                // Prevent the browser from saving or suggesting previous values
+                victimInput.setAttribute('autocomplete', 'off');
+                suspectInput.setAttribute('autocomplete', 'off');
+            }
+
+            // Reset form if answers were already correct
+            window.onload = function() {
+                if (isAnsweredCorrectly) {
+                    // Reset the form and enable fields
+                    document.getElementById('victimName').disabled = false;
+                    document.getElementById('culpritName').disabled = false;
+                    document.getElementById('submitReportBtn').disabled = false;
+                
+                    // Clear any stored data in localStorage
+                    localStorage.removeItem('draftVictim');
+                    localStorage.removeItem('draftSuspect');
+
+                    // Clear the input values to prevent access to the last inputs
+                    document.getElementById('victimName').value = '';
+                    document.getElementById('culpritName').value = '';
+
+                    // Reset the attempt counter
+                    attemptCounter = 0;
+                    document.getElementById('attemptCount').innerText = attemptCounter;
+                } else {
+                    // Ensure the fields are enabled if the task isn't completed
+                    document.getElementById('victimName').disabled = false;
+                    document.getElementById('culpritName').disabled = false;
+                    document.getElementById('submitReportBtn').disabled = false;
+                }
+
+                // Reset the attempt counter on page reload
+                attemptCounter = 0;
+                document.getElementById('attemptCount').innerText = attemptCounter;
+            }
+        }
+    </script>      
     
 </body>
 </html>

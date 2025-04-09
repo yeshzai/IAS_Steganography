@@ -16,11 +16,12 @@ This game invites players to explore the contents of a fictional victim’s comp
 ├── index.html            # Main landing page
 ├── scene.html            # Scene-specific page
 ├── screen.html           # Screen-specific page
-├── audio/                # Background music and sound effects
-├── img/                  # Game visuals and clues
-├── log/                  # Logs and evidence files
-├── person/               # Character visuals
-├── video/                # Glitched footage and evidence
+├── assets/               # Contains all game assets
+│   ├── images/           # Game visuals and clues
+│   ├── audio/            # Background music and sound effects
+│   ├── video/            # Glitched footage and evidence
+│   ├── log/              # Logs and evidence files
+│   └── person/           # Character visuals
 └── README.md             # Project documentation
 
 ## 🗂️ Key Folders
