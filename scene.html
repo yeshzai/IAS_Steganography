@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Lab Scene</title>
+    <!--<link rel="stylesheet" type="text/css" href="scene.css"/>-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         html {
@@ -38,17 +39,15 @@
             transition: transform 0.2s ease-in-out;
             z-index: 9999;
         }
-        
         .back-button:hover {
             transform: scale(1.1);
         }
-        
+
         .scene {
             position: relative;
             width: 100vw;
             height: 100vh;
         }
-
         .background-image {
             position: absolute;
             top: 0;
@@ -59,7 +58,6 @@
             background-size: cover;
         }
 
-        /* Silhouette of the body */
         .body-silhouette {
             position: absolute;
             bottom: 3%;
@@ -75,12 +73,12 @@
             position: absolute;
             opacity: 0.8;
             filter: blur(1px);
-            pointer-events: none; /* Prevents interference with clicks */
+            pointer-events: none; 
         }        
 
         .id-card {
             width: 48px;
-            transform: rotate(-22deg) perspective(600px) rotateX(55deg); /* Tilted effect */
+            transform: rotate(-22deg) perspective(600px) rotateX(55deg); 
             transition: transform 0.3s ease;
             position: relative;
             top: 56.7%;
@@ -88,39 +86,85 @@
             z-index: 1;
         }
         .id-card:hover {
-            transform: rotate(-10deg) scale(1.05); /* Slight zoom on hover */
+            transform: rotate(-10deg) scale(1.05); 
         }
 
-        /* Computer Screen */
+        .partial-fingerprint {
+            position: relative;
+            width: 25px; 
+            top: 51%;
+            left: 49.3%; 
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            filter: brightness(115%) contrast(120%) drop-shadow(0 0 6px rgba(255, 255, 255, 0.3));
+            opacity: 1;
+            z-index: 1000;
+        }
+        .partial-fingerprint:hover {
+            transform: scale(1.1);
+            filter: brightness(130%) contrast(130%) drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+        }
+
+        .crumpled-paper {
+            width: 37px;
+            transition: transform 0.3s ease;
+            position: relative;
+            top: 86.7%;
+            left: 52%; 
+            filter: brightness(25%);
+            z-index: 1;
+        }
+        .crumpled-paper::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0.8) 90%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .crumpled-paper:hover {
+            transform: rotate(-10deg) scale(1.05); 
+            filter: brightness(60%);
+        }
+
         .computer-screen {
-            position: fixed;  /* Fix it to the viewport */
-            top: 52.8vh;  /* Viewport height-based positioning */
+            position: fixed;  
+            top: 52.8vh;  
             right: 26.8vw;
             width: 111px;
             height: 66.5px;
             background: linear-gradient(to top, #111, #222);
-            border: 3px solid #0af;  /* Blue border */
+            border: 3px solid #0af;  
             padding: 14px;
             overflow: hidden;
             font-size: 10px;
-            color: #0af;  /* Blue glow */
+            color: #0af;  
             white-space: pre;
             transform: translateY(-50%) rotateX(25deg) rotateY(5deg);
-            box-shadow: 0px 5px 20px rgba(0, 170, 255, 0.5);  /* Blue glow effect */
+            box-shadow: 0px 5px 20px rgba(0, 170, 255, 0.5);  
             perspective: 800px;
             text-align: center;
             animation: glitch 3.5s infinite alternate;
-            cursor: default;
         }
-
         .computer-screen-wrapper {
             position: absolute;
             top: 52.7%;
             right: 26.9%;
             width: 75px;
             height: 30px;
+            z-index: 1000; 
+            cursor: pointer;
+            pointer-events: auto;
         }
-        
+        .computer-screen-wrapper:hover .computer-screen {
+            box-shadow: 0px 0px 12px #0af;
+            filter: brightness(1.3);
+        }
+
         @keyframes perspectiveZoom {
             0% {
                 transform: scale(1) translate(0, 0);
@@ -129,11 +173,10 @@
                 transform: scale(3) translate(-15vw, -5vh); 
             }
         }
-        
         .zoom-effect {
             animation: perspectiveZoom 4s ease-in-out forwards;
         }        
-        
+
         @keyframes glitch {
             0% { text-shadow: 2px 2px red, -2px -2px green; }
             50% { text-shadow: -2px -2px red, 2px 2px green; }
@@ -147,7 +190,6 @@
             display: inline-block;
             transform: translateY(-50%);
         }
-
         .laptop-corner p {
             color: white;
             text-align: center;
@@ -166,7 +208,6 @@
             transition: transform 0.2s;
             transform: scaleX(-1);
         }
-
         .laptop:hover {
             transform: scaleX(-1) scale(1.1);
         }
@@ -182,7 +223,6 @@
             gap: 82px;
             z-index: 1000;
         }
-
         .folder-container-1 {
             position: fixed !important;
             left: 20%;
@@ -193,13 +233,11 @@
             justify-content: center;
             z-index: 1000;
         }
-
         .folder-container h5 {
             text-align: center;
             width: 100%; 
             margin-bottom: 5px;
         }
-
         .folder-container .folder-wrapper {
             display: flex;
             flex-direction: column;
@@ -211,7 +249,6 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-
         .folder:hover {
             transform: scale(1.1);
         }
@@ -236,11 +273,10 @@
                 opacity: 0;
             }
         }
-
         .move-fade-out {
-            position: fixed !important; /* Keep it fixed */
-            top: 50% !important; /* Ensures it stays in place */
-            left: 20%; /* Keeps starting position */
+            position: fixed !important;
+            top: 50% !important; 
+            left: 20%; 
             animation: moveFadeOut 2s ease-out forwards;
         }
 
@@ -253,7 +289,7 @@
             justify-content: center;
             gap: 10px;
         }
-    
+
         .pin-input {
             width: 40px;
             height: 50px;
@@ -264,25 +300,73 @@
             background-color: black;
             color: white;
         }
-    
         .pin-input:focus {
             outline: none;
             border-color: #00ffff;
         }
+
+        #ExternalLink {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            color: white;
+            text-decoration: none;
+            background-color: #28a745;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+            z-index: 1000;
+        }
+        #ExternalLink:hover {
+            background-color: white;
+            color: #28a745;
+            transform: scale(1.05);
+        }
+
+        .fingerprint {
+            position: absolute;
+            top: 10%;  
+            left: 56%;
+            width: 27px;
+            transform: rotate(-10deg);
+            cursor: zoom-in;
+            opacity: 0.85;
+        }
+        #fingerprintImage {
+            transition: transform 0.3s ease;
+        }
+        #fingerprintImage:hover {
+            transform: scale(1.05);
+        }          
     </style>
 </head>
 <body>
     <button class="back-button" onclick="location.href='index.html'">← Back to Premise</button>
+    <a id="ExternalLink" href="https://seanmaravillo.github.io/image-video-steganography/" target="_blank">Tools</a>
+
+    <audio id="sound-paper" src="audio/paper-uncrumple.mp3" preload="auto"></audio>
+    <audio id="sound-idcard" src="audio/id-card-pickup.mp3" preload="auto"></audio>
+    <audio id="sound-folder" src="audio/folder-open.mp3" preload="auto"></audio>
+    <audio id="sound-fingerprint-scan" src="audio/fingerprint-scan.mp3" preload="auto"></audio>
+    <audio id="sound-laptop-open" src="audio/laptop-open.mp3" preload="auto"></audio>
+    <audio id="sound-laptop-close" src="audio/laptop-close.mp3" preload="auto"></audio>
 
     <div class="scene">
         <div class="background-image"></div>
         <img src="img/dead-body-bgremoved.png" alt="Slumped body" class="body-silhouette">
         <img src="img/blood-desk.png" class="blood-splatter" style="top: 55.5%; left: 65%; width: 85px; transform: rotate(5deg); z-index: 1;">
         <img src="img/blood-floor.png" class="blood-splatter" style="bottom: 2%; right: 29%; width: 120px; transform: rotate(25deg);">
-        <img src="img/id.png" class="id-card" data-bs-toggle="modal" data-bs-target="#idModal" alt="ID Card">
+        <img src="img/id.png" class="id-card" id="idCard" data-bs-toggle="modal" data-bs-target="#idModal" alt="ID Card">
+        <img src="img/ball-crumbled-paper.png" class="crumpled-paper" id="crumpledPaper" data-bs-toggle="modal" data-bs-target="#crumpledPaperModal" alt="Ball Crumpled Paper">
+        <img src="img/Partial_FP__Dr._Esteban.png" alt="Partial Fingerprint" id="fingerprintScan" class="partial-fingerprint" data-bs-toggle="tooltip" data-bs-placement="top" title="Partial fingerprint fragment" onclick="openFingerprintModal()"/>
         <div class="computer-screen-wrapper" onclick="zoomIntoScreen()">
             <div class="computer-screen folder-row" id="folderRow"></div>
-        </div>        
+        </div>
+        <!--<div class="computer-screen-wrapper">
+            <div class="computer-screen folder-row" id="folderRow"></div>
+        </div>-->
     </div>
 
     <!-- ID Modal -->
@@ -298,10 +382,39 @@
         </div>
         </div>
     </div>
+
+    <!-- Crumpled Paper Modal -->
+    <div class="modal fade" id="crumpledPaperModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark text-white text-center">
+                <div class="modal-header">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body m-0">
+                    <img src="img/crumpled-note.png" alt="Ball Crumpled Card" style="width: 50%; margin: 0; padding: 0;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partial Fingerprint Modal -->
+    <div class="modal fade" id="fingerprintModal" tabindex="-1" aria-labelledby="fingerprintModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title text-white" id="fingerprintModalLabel">Partial Fingerprint</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="img/Partial_FP__Dr._Esteban.png" class="img-fluid rounded" alt="Fingerprint Detail">
+                </div>
+            </div>
+        </div>
+    </div>
   
     <div class="laptop-corner">
         <p>Vincent's Laptop</p>
-        <img src="img/laptop.png" alt="Laptop" class="laptop" data-bs-toggle="modal" data-bs-target="#laptopModal">
+        <img src="img/laptop.png" alt="Laptop" class="laptop" id="laptop" data-bs-toggle="modal" data-bs-target="#laptopModal">
     </div>
 
     <!-- Laptop Modal with PIN Entry -->
@@ -342,14 +455,7 @@
                         </ul>
                         <p><strong>Verbal Admission:</strong> "I just… I was paid to set up remote access. That’s all."</p>
                         <p class="text-warning"><strong>⚠️ Note:</strong> Vincent had credentials to security logs and may have tampered with surveillance footage.</p>
-                      </div>
-                      
-                    <!-- Hidden info until unlocked 
-                    <div id="accessGranted" style="display: none;">
-                        <img id="suspectImage" src="img/folder.png" alt="Suspect Folder" style="width: 90%; max-width: 800px;" class="mb-3 mt-3">
-                        <p><strong>Alibi:</strong> Says he was gaming online between 1:00 AM and 3:00 AM. His activity is verifiable, but his laptop was used to execute a system override at <strong>2:47 AM</strong>.</p>
-                        <p><strong>Remote Access Point:</strong> Laptop registered activity from the Bicol University network with unauthorized elevated privileges.</p>
-                    </div>-->
+                    </div>
                 </div>
             </div>
         </div>
@@ -358,17 +464,17 @@
     <div class="folder-container">
         <div class="folder-wrapper">
             <h5>Evidence Folder</h5>
-            <img src="img/evidence-folder.png" alt="Evidence Folder" class="folder mb-5" data-bs-toggle="modal" data-bs-target="#evidenceModal">
+            <img src="img/evidence-folder.png" alt="Evidence Folder" class="folder mb-5" id="evidence-folder" data-bs-toggle="modal" data-bs-target="#evidenceModal">
         </div>
         <div class="folder-wrapper">
-            <h5>Police Reports Folder</h5>
-            <img src="img/police-reports-folder.png" alt="Police Reports Folder" class="folder mb-5" data-bs-toggle="modal" data-bs-target="#policeModal">
+            <h5>Pending Analysis</h5>
+            <img src="img/police-reports-folder.png" alt="Pending Analysis Folder" class="folder mb-5" id="analysis-folder" data-bs-toggle="modal" data-bs-target="#pendingAnalysisModal">
         </div>
     </div>
     <div class="folder-container-1">
         <div class="folder-wrapper">
             <h5>Suspect Folder</h5>
-            <img src="img/suspect-folder.png" alt="Suspect Folder" class="folder" data-bs-toggle="modal" data-bs-target="#suspectModal">
+            <img src="img/suspect-folder.png" alt="Suspect Folder" class="folder" id="suspect-folder" data-bs-toggle="modal" data-bs-target="#suspectModal">
         </div>
     </div>
 
@@ -408,22 +514,29 @@
         </div>
     </div>
 
-    <!-- Police Reports Modal -->
-    <div class="modal fade" id="policeModal" tabindex="-1" aria-hidden="true">
+    <!-- Pending Analysis -->
+    <div class="modal fade" id="pendingAnalysisModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content bg-dark text-white">
                 <div class="modal-header">
-                    <h5 class="modal-title">Police Reports</h5>
+                    <h5 class="modal-title">Pending Analysis</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p><strong>Incident Report:</strong></p>
-                    <p>📝 <span style="background: black; color: black; transition: color 0.5s;" onmouseover="this.style.color='white'">[REDACTED TEXT]</span></p>
-                    <p>🕒 Last seen at 2:47 AM</p>
+                    <p><strong>These files were flagged for further review but never made it to the official report.
+                        "We were supposed to circle back to this... but no one ever did."</strong></p>
+                    <div class="ms-4">
+                        <p>📝 <a style="text-decoration: none; color: inherit;" href="https://drive.google.com/drive/folders/1HqZXI738gPIgYEetEp2NU3bfdbN7fmSU?usp=sharing" target="_blank" rel="noopener noreferrer">
+                            Undeclared Photos</a>
+                        </p>
+                        <p>📝 <a style="text-decoration: none; color: inherit;" href="https://drive.google.com/drive/folders/1K9oGFkY6v3eSWlUoWgxgXCANciSaTNZa?usp=sharing" target="_blank" rel="noopener noreferrer">
+                            Recovered Clips</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 
     <!-- Suspect Modal -->
     <div class="modal fade" id="suspectModal" tabindex="-1" aria-hidden="true">
@@ -448,20 +561,37 @@
 
     <!-- Suspect Profile Modal -->
     <div id="suspectProfileModal" class="modal fade" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content bg-dark text-white text-center">
                 <div class="modal-header">
                     <h5 class="modal-title" id="suspectName">Suspect Profile</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body mt-4">
-                    <img id="suspectImage" src="/img/folder.png" alt="Suspect Folder" style="width: 90%; max-width: 800px;" class="mb-3">
+                    <!-- Container for Folder + Fingerprint -->
+                    <div class="position-relative d-inline-block">
+                        <img id="suspectImage" src="/img/folder.png" alt="Suspect Folder" style="width: 90%; max-width: 800px;" class="mb-3">
+                        <img id="fingerprintImage" src="/img/fingerprint.png" alt="Fingerprint Evidence" class="fingerprint mt-2" onclick="zoomFingerprint('')">
+                    </div>
                     <p id="suspectDesc"></p>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Fingerprint Zoom Modal -->
+    <div class="modal fade" id="fingerprintZoomModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content bg-dark">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center p-0">
+                    <img id="zoomedFingerprint" src="/img/fingerprint.png" alt="Fingerprint Zoomed" class="img-fluid" style="width: 40%;">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <button id="playSound" style="display:none;">Play</button>
     <audio id="eerieAudio" loop>
@@ -473,6 +603,47 @@
 
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Crumpled Paper
+        document.getElementById("crumpledPaper").addEventListener("click", () => {
+          document.getElementById("sound-paper").play();
+        });
+      
+        // ID Card
+        document.getElementById("idCard").addEventListener("click", () => {
+          document.getElementById("sound-idcard").play();
+        });
+
+        // Fingerprint Scan
+        document.getElementById("fingerprintScan").addEventListener("click", () => {
+            document.getElementById("sound-fingerprint-scan").play();
+        });
+      
+        // Folder(s)
+        const folderIds = ["evidence-folder", "analysis-folder", "suspect-folder"];
+        folderIds.forEach(id => {
+            document.getElementById(id).addEventListener("click", () => {
+                document.getElementById("sound-folder").currentTime = 0; // reset so it can replay fast
+                document.getElementById("sound-folder").play();
+            });
+        });
+      
+        // Laptop
+        const laptop = document.getElementById("laptop");
+        const laptopModal = document.getElementById("laptopModal");
+        laptop.addEventListener("click", () => {
+            const openSound = document.getElementById("sound-laptop-open");
+            openSound.currentTime = 0;
+            openSound.play();
+        });
+        // Bootstrap modal close event listener
+        laptopModal.addEventListener("hidden.bs.modal", () => {
+            const closeSound = document.getElementById("sound-laptop-close");
+            closeSound.currentTime = 0;
+            closeSound.play();
+        });
+    </script>     
 
     <script>
         const folderSnippets = [
@@ -492,6 +663,20 @@
             span.style.transition = "opacity 1s ease-in-out";  // Smooth transition for fading effect
         }
         });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            tooltipTriggerList.map(function (tooltipTriggerEl) {
+              return new bootstrap.Tooltip(tooltipTriggerEl)
+            })
+        });
+          
+        function openFingerprintModal() {
+            const modal = new bootstrap.Modal(document.getElementById('fingerprintModal'));
+            modal.show();
+        }   
     </script>
 
     <script>
@@ -579,33 +764,238 @@
             const profileImage = document.getElementById('suspectImage');
             const profileTitle = document.getElementById('suspectName');
             const profileDesc = document.getElementById('suspectDesc');
+            const fingerprintImage = document.getElementById('fingerprintImage');
     
             // Customize based on name
+            let fingerprintSrc = ""; // Store fingerprint image path
+
             if (name === "Vincent") {
                 profileImage.src = "img/vincent-profile.png";
+                fingerprintImage.src = "img/fingerprint-vincent.png";
                 profileTitle.textContent = "Vincent Lim";
-                profileDesc.textContent = "Suspect #1: Known associate of the victim. Claims alibi at the time of incident.";
+                profileDesc.innerHTML = `
+                    <strong>Suspect #1:</strong> Known associate of the victim. Claims an alibi at the time of the incident.<br><br>
+                    <strong>Position:</strong> Graduate Student – Security Admin<br>
+                    <strong>Department:</strong> Computer Science<br>
+                    <strong>Age:</strong> 24<br>
+                    <strong>Known Traits:</strong> Technically gifted, reclusive, anxious under pressure<br><br>
+
+                    <strong>Background:</strong><br>
+                    Vincent is a skilled programmer with a gift for exploiting system vulnerabilities. He was hired part-time by the university to oversee lab network integrity. 
+                    Rumors say he’s in deep student debt and has taken on risky side gigs to make ends meet. He’s known to crack under pressure and tries to avoid conflict at all costs.<br><br>
+
+                    <strong>Alibi:</strong> Claims he was gaming online from 1:00 AM to 3:00 AM. Activity appears verifiable, 
+                    but system override was executed on his laptop at 2:47 AM.<br><br>
+
+                    <strong>Suspicious Behavior:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Executed a system override at 2:47 AM.</li>
+                        <li>Had admin-level access to security logs and surveillance systems.</li>
+                        <li>Admitted: “I just… I was paid to set up remote access. That’s all.”</li>
+                    </ul>
+
+                    <strong>Personal Info and Notes:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Shares an apartment with another grad student off-campus.</li>
+                        <li>Regularly posts on obscure tech forums under an alias.</li>
+                        <li>Receives regular cash deposits from an unknown external account.</li>
+                        <li>Deeply in debt due to student loans.</li>
+                        <li>Maintains the lab’s internal security systems.</li>
+                        <li>Often collaborates with staff but prefers working independently.</li>
+                        <li>Known to freelance for extra income (script writing, backend work).</li>
+                        <li>Previously reprimanded for installing unapproved tools on lab machines.</li>
+                    </ul>
+                `;
             } else if (name === "Maria") {
                 profileImage.src = "img/maria-profile.png";
+                fingerprintImage.src = "img/fingerprint-maria.png";
                 profileTitle.textContent = "Maria Dela Cruz";
-                profileDesc.textContent = "Suspect #2: Last person seen with the victim. Inconsistent statements.";
+                profileDesc.innerHTML = `
+                    <strong>Suspect #2:</strong> Longtime lab technician. Inconsistent statements.<br><br>
+                    <strong>Position:</strong> Lab Technician<br>
+                    <strong>Department:</strong> Computer Science<br>
+                    <strong>Age:</strong> 31<br>
+                    <strong>Known Traits:</strong> Quiet, dependable, observant<br><br>
+
+                    <strong>Background:</strong><br>
+                    Maria was a Computer Science alumna who didn’t make it into research but was hired for her reliability. 
+                    She’s worked behind the scenes for years, silently supporting students and faculty alike. 
+                    Recently, she became more withdrawn, and staff noted she had been “acting off” days before the incident.<br><br>
+
+                    <strong>Alibi:</strong> Claims she was doing inventory at 2:30 AM and heard a loud noise, but saw nothing unusual.<br><br>
+
+                    <strong>Suspicious Behavior:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Security logs show her keycard was used to enter the lab at 2:15 AM.</li>
+                        <li>A recently deleted email recovered from her phone hidden in a lab inventory list reads: "I don’t want to be part of this. Don’t make me do it.”</li>
+                        <li>A piece of her torn glove was found near the server rack.</li>
+                    </ul>
+
+                    <strong>Personal Info and Notes:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Lives in a dorm near campus; rarely goes home.</li>
+                        <li>Keeps a journal and sketchpad in her locker.</li>
+                        <li>Had a close friendship with Luis Calderon, the victim.</li>
+                        <li>Was seen arguing quietly with Vincent Lim two days before the murder.</li>
+                        <li>Grew up in a military family and values discipline.</li>
+                        <li>Responsible for inventory, equipment checks, and lab maintenance.</li>
+                        <li>Has access to all secure zones for maintenance purposes.</li>
+                        <li>Sometimes stays late to finish her rounds or assist students.</li>
+                        <li>Keeps a personal logbook of unusual system behavior.</li>
+                    </ul>
+                `;
             } else if (name === "Esteban") {
                 profileImage.src = "img/esteban-profile.png";
+                fingerprintImage.src = "img/fingerprint-esteban.png";
                 profileTitle.textContent = "Dr. Esteban Ramirez";
-                profileDesc.textContent = "Suspect #3: Last person seen with the victim. Inconsistent statements.";
+                profileDesc.innerHTML = `
+                    <strong>Suspect #3:</strong>  Senior faculty member with deep ties to the Overseer Project.<br><br>
+                    <strong>Position:</strong> Professor – Cybernetics Consultant<br>
+                    <strong>Department:</strong> Engineering & Cybernetics<br>
+                    <strong>Age:</strong> 47<br>
+                    <strong>Known Traits:</strong> Analytical, composed, methodical<br><br>
+
+                    <strong>Background:</strong><br>
+                    A veteran professor with ties to multiple national research councils. 
+                    Esteban is known for playing the long game — he rarely speaks out, but when he does, it’s with intent. 
+                    He co-authored white papers on neural interface systems and was reportedly involved in classified military research before entering academia full time.<br><br>
+
+                    <strong>Alibi:</strong> Claims he never left his office, working on research grants until morning.<br><br>
+
+                    <strong>Suspicious Behavior:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>A recovered email to Rafael reads: "We need to contain this before it spreads further."</li>
+                        <li>He was one of the few with clearance to restricted areas of the lab.</li>
+                        <li>Has access to security footages and was granted elevated access a day before the murder.</li>
+                    </ul>
+
+                    <strong>Personal Info and Notes:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Widower with one child studying abroad.</li>
+                        <li>Keeps his office locked and monitored with independent cameras.</li>
+                        <li>Once vouched for Rafael when faculty questioned the Overseer Project’s ethics.</li>
+                        <li>Has a medical condition requiring medication — pills were found in the lab trash.</li>
+                        <li>Often suffers from insomnia and works odd hours.</li>
+                        <li>Brought in to assist with specific phases of the Overseer Project.</li>
+                        <li>Often works late, alone, and maintains a heavily secured office.</li>
+                        <li>Keeps minimal communication outside official university channels.</li>
+                        <li>Has been seen in heated discussions with Rafael in the past.</li>
+                    </ul>
+                `;
             } else if (name === "Rafael") {
                 profileImage.src = "img/rafael-profile.png";
+                fingerprintImage.src = "img/fingerprint-rafael.png";
                 profileTitle.textContent = "Rafael Kyle Jimenez";
-                profileDesc.textContent = "Suspect #4: Last person seen with the victim. Inconsistent statements.";
+                profileDesc.innerHTML = `
+                    <strong>Suspect #4:</strong> Overseer Project’s creator. Keeps everything under tight control.<br><br>
+                    <strong>Position:</strong> Lead Researcher – Overseer Project<br>
+                    <strong>Department:</strong> Computer Science (Student)<br>
+                    <strong>Age:</strong> 23<br>
+                    <strong>Known Traits:</strong> Detail-oriented, guarded, rarely social<br><br>
+
+                    <strong>Background:</strong><br>
+                    A top-performing student with a brilliant mind for system architecture and experimental technologies. 
+                    Rafael proposed the Overseer Project as part of his thesis, which gained special approval due to its complexity and potential. 
+                    Despite his age, he’s treated like a peer by some professors due to his technical ability. 
+                    Many admire his work, though he prefers to work alone.<br><br>
+
+                    <strong>Alibi:</strong> Claims he was grading papers at home and remotely accessing the system for maintenance.<br><br>
+
+                    <strong>Suspicious Behavior:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>He had clearance to the deleted security footage."</li>
+                        <li>The victim was rumored to be exposing a hidden project Rafael was leading.</li>
+                        <li>His access logs were wiped.</li>
+                    </ul>
+
+                    <strong>Personal Info and Notes:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Lives off-campus in a gated subdivision.</li>
+                        <li>Has no known social media accounts.</li>
+                        <li>Rumored to have had a falling out with the victim before the incident.</li>
+                        <li>Known for being secretive and having absolute control over lab access.</li>
+                        <li>Tends to take project matters into his own hands, avoiding higher university oversight.</li>
+                        <li>Frequently works off-site but retains full administrative access to lab systems.</li>
+                        <li>Known to keep sensitive documents heavily encrypted.</li>
+                        <li>Avoids direct confrontation, prefers to handle issues quietly.</li>
+                    </ul>
+                `;
             } else if (name === "Angela") {
                 profileImage.src = "img/angela-profile.png";
+                fingerprintImage.src = "img/fingerprint-angela.png";
                 profileTitle.textContent = "Angela Cortez";
-                profileDesc.textContent = "Suspect #5: Last person seen with the victim. Inconsistent statements.";
+                profileDesc.innerHTML = `
+                    <strong>Suspect #5:</strong> Promising researcher with connections to both the victim and sensitive data.<br><br>
+                    <strong>Position:</strong> Research Assistant – AI Specialist<br>
+                    <strong>Department:</strong> Computer Science<br>
+                    <strong>Age:</strong> 22<br>
+                    <strong>Known Traits:</strong> Curious, intelligent, fiercely independent<br><br>
+
+                    <strong>Background:</strong><br>
+                    Angela is a rising star in the AI field and the youngest to be granted research privileges in her department. 
+                    She collaborated with the victim on a side project unrelated to Overseer, but the two were reportedly growing distant. 
+                    Angela has voiced concerns in the past about ethical limits in experimental research — especially after discovering fragments of files she was never supposed to see.<br><br>
+
+                    <strong>Alibi:</strong> Was in the Engineering Department working late. 
+                    However, her ID card was used to enter the lab at 1:58 AM, which she denies prompting that she lost her ID card.<br><br>
+
+                    <strong>Suspicious Behavior:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>A message from the victim reads: "If something happens to me…” redacted or corrupted."</li>
+                        <li>A photo of her and Lucas contains the other half of the corrupted message.</li>
+                        <li>Her handwritten notes reference "Project Overseer", though she insists she didn’t know its full scope.</li>
+                    </ul>
+
+                    <strong>Personal Info and Notes:</strong>
+                    <ul style="text-align: left; padding-left: 20px;">
+                        <li>Lives in the Engineering residence hall.</li>
+                        <li>Keeps detailed handwritten notebooks.</li>
+                        <li>Was seen crying alone outside the lab two nights before the incident.</li>
+                        <li>Has a strained relationship with Rafael, who once discredited her work during a panel.</li>
+                        <li>Worked closely with the victim on a previous research paper.</li>
+                        <li>Accessed sensitive files during after-hours research.</li>
+                        <li>Denies involvement in the Overseer Project, though fragments of related data were found in her possession.</li>
+                    </ul>
+                `;
             }
+
+            // Set the fingerprint image source
+            //fingerprintImageZoom.src = fingerprintSrc;
+
+            // Update the fingerprint's onclick dynamically based on the current suspect
+            fingerprintImage.setAttribute("onclick", `zoomFingerprint('${name}')`);
     
             // Show the suspect profile modal
             const profileModal = new bootstrap.Modal(document.getElementById('suspectProfileModal'));
             profileModal.show();
+
+            // Open the fingerprint zoom modal
+            //const fingerprintModal = new bootstrap.Modal(document.getElementById('fingerprintModal'));
+            //fingerprintModal.show();
+        }
+
+        function zoomFingerprint(suspectName) {
+            // Play the fingerprint scan sound
+            document.getElementById("sound-fingerprint-scan").play();
+
+            const fingerprintModal = new bootstrap.Modal(document.getElementById('fingerprintZoomModal'));
+            const zoomedFingerprint = document.getElementById('zoomedFingerprint');
+            
+            // Set the fingerprint image based on the clicked suspect
+            if (suspectName === "Vincent") {
+                zoomedFingerprint.src = "img/fingerprint-vincent.png";  
+            } else if (suspectName === "Maria") {
+                zoomedFingerprint.src = "img/fingerprint-maria.png"; 
+            } else if (suspectName === "Esteban") {
+                zoomedFingerprint.src = "img/fingerprint-esteban.png"; 
+            } else if (suspectName === "Rafael") {
+                zoomedFingerprint.src = "img/fingerprint-rafael.png"; 
+            } else if (suspectName === "Angela") {
+                zoomedFingerprint.src = "img/fingerprint-angela.png"; 
+            } 
+            
+            // Open the fingerprint modal
+            fingerprintModal.show();
         }
     </script>    
 
@@ -621,6 +1011,13 @@
                 }, { once: true }); // Ensures this event runs only once
             });
         });
+
+        
+        /*document.addEventListener("DOMContentLoaded", function () {
+            const screenWrapper = document.querySelector('.computer-screen-wrapper');
+            screenWrapper.addEventListener('click', zoomIntoScreen);
+        });*/
+            
 
         function zoomIntoScreen() {
             const scene = document.querySelector('.scene'); // Target the whole scene
@@ -645,6 +1042,9 @@
             folderContainer1.classList.add('move-fade-out');
             laptopCorner.classList.add('move-fade-out');
             scene.classList.add('zoom-effect');
+
+            // Set music state so it continues on screen.html
+            sessionStorage.setItem("musicPlaying", "true");
 
             // Play glitch sound just before switching pages (with lower volume)
             let glitchAudio = document.getElementById("newTrack");

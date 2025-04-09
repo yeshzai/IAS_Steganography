@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <title>Premise</title>
     <style>
         body {
@@ -15,8 +16,92 @@
             color: white;
         }
 
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        .glitch-title {
+        font-family: 'Press Start 2P', monospace;
+        font-size: 3rem;
+        color: #00ffea;
+        position: relative;
+        text-align: center;
+        margin-top: 2.2rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        overflow: hidden;
+        }
+
+        .glitch-title::before,
+        .glitch-title::after {
+        content: attr(data-text);
+        position: absolute;
+        left: 0;
+        width: 100%;
+        overflow: hidden;
+        color: #ff00c8;
+        clip: rect(0, 900px, 0, 0);
+        }
+
+        .glitch-title::before {
+        animation: glitchTop 2s infinite linear alternate-reverse;
+        color: #ff004c;
+        z-index: -1;
+        }
+
+        .glitch-title::after {
+        animation: glitchBottom 2s infinite linear alternate-reverse;
+        color: #00fff7;
+        z-index: -2;
+        }
+
+        @keyframes glitchTop {
+        0% {
+            clip: rect(0, 9999px, 0, 0);
+            transform: translate(0, 0);
+        }
+        5% {
+            clip: rect(0, 9999px, 4px, 0);
+            transform: translate(-2px, -2px);
+        }
+        10% {
+            clip: rect(0, 9999px, 8px, 0);
+            transform: translate(2px, -1px);
+        }
+        15% {
+            clip: rect(0, 9999px, 4px, 0);
+            transform: translate(-1px, 2px);
+        }
+        20%, 100% {
+            clip: rect(0, 9999px, 0, 0);
+            transform: translate(0, 0);
+        }
+        }
+
+        @keyframes glitchBottom {
+        0% {
+            clip: rect(0, 9999px, 0, 0);
+            transform: translate(0, 0);
+        }
+        5% {
+            clip: rect(4px, 9999px, 8px, 0);
+            transform: translate(1px, 1px);
+        }
+        10% {
+            clip: rect(2px, 9999px, 6px, 0);
+            transform: translate(-2px, 1px);
+        }
+        15% {
+            clip: rect(0, 9999px, 4px, 0);
+            transform: translate(2px, -1px);
+        }
+        20%, 100% {
+            clip: rect(0, 9999px, 0, 0);
+            transform: translate(0, 0);
+        }
+        }
+
         p {
-            padding: 50px 100px 10px 100px;
+            padding: 10px 100px;
             line-height: 1.8;
             text-align: justify;
         }
@@ -49,10 +134,32 @@
             color: #007bff;
             box-shadow: 0 0 25px rgba(0, 123, 255, 0.9);
         }
+
+        #mobileWarning {
+            display: none;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: red;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            z-index: 1000;
+        }        
     </style>
 </head>
 <body>
+    <div id="mobileWarning">
+        ⚠️ This website is best viewed on a desktop.
+    </div>
+    
+
     <div id="container1">
+        <!--<h1 class="glitchy-title">Who Killed Who?</h1>-->
+        <h1 class="glitch-title" data-text="Who Killed Who?">Who Killed Who?</h1>
+
         <p>
             At Bicol University, the prestigious Computer Science Lab becomes the center of a chilling mystery when a disfigured body is discovered in the 
             corner of the lab. The victim’s computer screen runs an erratic mess of code, and their identity remains unknown. The university descends into 
@@ -70,5 +177,13 @@
             <a id="Continue" href="scene.html">Start</a>
         </div>
     </div>
+
+    <script>
+        window.onload = function () {
+            if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                document.getElementById('mobileWarning').style.display = 'block';
+            }
+        };        
+    </script>
 </body>
 </html>
